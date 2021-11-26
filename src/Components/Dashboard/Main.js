@@ -1,73 +1,63 @@
-import React from 'react';
-import { getUser } from '../../Functions/SpotifyUser.js';
+import React, { useState, useEffect } from 'react';
+import { getSpotifyUser, getTopItems } from '../../Functions/SpotifyUser.js';
 import * as $ from "jquery";
+import { Container, Typography, Button } from '@mui/material';
+import { BrowserRouter } from "react-router-dom";
+import Home from './Home.js';
+
+function Main(props) {
+    const [token, setToken] = useState(null);
+    const [activePage, setActivePage] = useState('Home');
 
 
-class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { token: props.token, userData: {}}
 
-        this.debugging = this.debugging.bind(this);
-        this.getUserData = this.getUserData.bind(this);
-        this.setUser = this.setUser.bind(this);
- 
-    }
-    async componentDidMount(props) {
-        // const user = await this.getUserData();
-        // this.setState({ userData: user })
-        this.setUser(this.state.token)
-    }
+    // Data
+    const [userData, setUserData] = useState({});
+    const [userTopFiftyTracks, setUserTopFiftyTracks] = useState([]);
+    const [userTopFiftyArtists, setUserTopFiftyArtists] = useState([]);
 
-    async getUserData() {
-        const user = await getUser(this.state.token);
-        return(user);
+
+
+
+
+
+	useEffect(() => {
+        setToken(props.token);
+        async function getData(){
+            if (token != null){
+                const user = await getSpotifyUser(token);
+                console.log(user);
+                setUserData(user);
     
-    }
+    
+                const tracks = await getTopItems(token, 'tracks');
+                setUserTopFiftyTracks(tracks);
+    
+                const artists = await getTopItems(token, 'artists');
+                setUserTopFiftyArtists(artists);
 
-    debugging() {
-        console.log('here')
-        console.log(this.state)
-    }
-
-    // function that gets the current spotify user id
-    setUser(token){
-        $.ajax({
-            url: "    https://api.spotify.com/v1/me",
-            type: "GET",
-            beforeSend: xhr => {
-              xhr.setRequestHeader("Authorization", "Bearer " + token);
-            },
-            success: data => {
-              // Checks if the data is not empty
-              if(!data) {
-                console.log('no data')
-                // return (false);
-              }
-              else{
-                  console.log('there is data!');
-                  var userInfo = {
-                      'displayName':  data.display_name,
-                      'photoUrl': data.images[0].url,
-                      'uid': data.id
-                  }
-                  console.log(userInfo)
-                  this.setState({userData: userInfo});
-                //   return (userInfo)
-              }
-      
             }
-          });
+        }
+        getData()
+	}, [token]);
+
+    function debugging() {
+        console.log('here')
+        console.log(userData);
+        console.log(userTopFiftyTracks);
+        console.log(userTopFiftyArtists);
+        // console.log(this.state)
     }
 
-    render() {
-        return (
-            <div>
-                <p>logged in - main page</p>
-                <button type='button' onClick={this.debugging}>debugger</button>
-            </div>
-        )
-    }
+
+    return(
+        <React.Fragment>
+            <Container className='container'>
+                <Home userData={userData} userTopFiftyTracks={userTopFiftyTracks} userTopFiftyArtists={userTopFiftyArtists} />
+            </Container>
+        </React.Fragment>
+
+    )
 }
 
 export default Main;

@@ -10,6 +10,6 @@ const hash = window.parent.location.hash
     console.log(window.parent.location);
     return initial;
   }, {});
-// window.location.hash = "";
+window.location.hash = "";
 
 export default hash;
