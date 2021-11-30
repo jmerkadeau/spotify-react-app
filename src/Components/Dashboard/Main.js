@@ -4,6 +4,7 @@ import * as $ from "jquery";
 import { Container, Typography, Button } from '@mui/material';
 import { BrowserRouter } from "react-router-dom";
 import Home from './Home.js';
+import DurationPlot from './Duration/DurationPlot.js';
 
 function Main(props) {
     const [token, setToken] = useState(null);
@@ -54,6 +55,7 @@ function Main(props) {
         <React.Fragment>
             <Container className='container'>
                 <Home userData={userData} userTopFiftyTracks={userTopFiftyTracks} userTopFiftyArtists={userTopFiftyArtists} />
+                <DurationPlot userTopFiftyTracks={userTopFiftyTracks} />
             </Container>
         </React.Fragment>
 
