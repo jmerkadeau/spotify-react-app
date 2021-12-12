@@ -13,6 +13,12 @@ import theme from '../../../Theme.js';
 const useStyles = makeStyles((theme) => ({
     header: {
         color: '#F2F4F5',
+    },
+    plotTitle: {
+        color: '#F2F4F5'
+    },
+    fullCard: {
+        backgroundColor: '#383f4e'
     }
 
 }));
@@ -23,6 +29,7 @@ function DurationPlot(props) {
 
     const [durationData, setDurationData] = useState([]);
     const [activeDataIndex, setActiveDataIndex] = useState(-1);
+    const [plotTitle, setPlotTitle] = useState("...");
 
     useEffect(() => {
         let fifty = props.userTopFiftyTracks;
@@ -99,16 +106,27 @@ function DurationPlot(props) {
         return (buckets);
     }
 
-    function startHoverIndex(event) {
+    function setClickIndex(event) {
         var i = event.target.id;
         console.log('entering' + i)
         setActiveDataIndex(i)
     }
 
     function endHoverIndex(event) {
-        var i = event.target.id
+        var i = event.target.id;
         console.log("leaving" + i)
         // setActiveDataIndex(-1)
+    }
+
+    function changeTitle(event) {
+        var i = event.target.id;
+        var bucket = durationData[i];
+        var freq = Math.floor(bucket.frequency * 100);
+        setPlotTitle(`${freq}% of your songs are between ${bucket.minReadable} and ${bucket.maxReadable}`);
+    }
+
+    function clearTitle(event) {
+        setPlotTitle('...');
     }
 
 
@@ -125,10 +143,11 @@ function DurationPlot(props) {
         <ThemeProvider theme={theme}>
             <Grid container spacing={2}>
                 <Grid item xs={8}>
-                    <Card>
+                    <Card className = {classes.fullCard}>
                         <Typography className={classes.header}>Duration Plot</Typography>
+                        <Typography className={classes.plotTitle}>{plotTitle}</Typography>
                         {/* <Button variant='contained' onClick={debug}>debugger</Button> */}
-                        <BarChart data={durationData} startHoverIndex={startHoverIndex} endHoverIndex={endHoverIndex}></BarChart>
+                        <BarChart data={durationData} setClickIndex={setClickIndex} endHoverIndex={endHoverIndex} changeTitle={changeTitle} clearTitle={clearTitle}></BarChart>
                     </Card>
                 </Grid>
                 <Grid item xs={4}>

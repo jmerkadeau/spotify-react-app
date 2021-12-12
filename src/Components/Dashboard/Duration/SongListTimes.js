@@ -12,10 +12,11 @@ const useStyles = makeStyles((theme) => ({
         color: '#F2F4F5',
     },
     cardHeader: {
-        color: '#F2F4F5'
+        color: theme.palette.grey[200]
     },
     fullCard: {
         overflow: 'scroll',
+        backgroundColor: '#383f4e'
     }
 
 }));
@@ -56,13 +57,13 @@ function SongListTimes(props) {
 
     if (activeIndex == -1 || data == undefined) {
         return (
-            <Card>
-                <Typography>Hover over the plot...</Typography>
+            <Card className={classes.fullCard}>
+                <Typography>Click On A Bar To View Songs</Typography>
             </Card>
         )
     } else {
         return (
-            <Card className={classes.fullCard} sx={{ maxHeight: 530 }}>
+            <Card className={classes.fullCard} sx={{ maxHeight: 554 }}>
                 <Typography className={classes.cardHeader}>{activeLabel}</Typography>
                 <List>
                     {activeData.map((track, idx) => {
