@@ -37,7 +37,7 @@ function BarChart(props) {
         const yMax = height - margin.top - margin.bottom;
 
         // defining our data
-        const x = d => d.label;
+        const x = d => d.readableLabel;
         const y = d => +d.frequency * 100;
 
         // scaling by data

@@ -11,7 +11,7 @@ function SongListItem(props) {
         <ListItemAvatar>
           <Avatar alt={props.name} src={props.coverArt} />
         </ListItemAvatar>
-        <ListItemText primary={props.name + ' - ' + props.duration} secondary={props.artist} />
+        <ListItemText primary={props.name + ' - ' + props.time} secondary={props.artist} />
         </ListItem>
     )
 }

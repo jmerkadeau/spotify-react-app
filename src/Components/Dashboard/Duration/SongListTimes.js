@@ -38,8 +38,8 @@ function SongListTimes(props) {
         setActiveIndex(propsActiveIndex);
 
         if (propsActiveIndex != -1) {
-            setActiveLabel(propsData[propsActiveIndex].label)
-            console.log(propsData[propsActiveIndex].label)
+            setActiveLabel(propsData[propsActiveIndex].readableLabel)
+            console.log(propsData[propsActiveIndex].readableLabel)
 
             setActiveData(propsData[propsActiveIndex].tracks);
             console.log(propsData[propsActiveIndex].tracks)
@@ -66,7 +66,7 @@ function SongListTimes(props) {
                 <Typography className={classes.cardHeader}>{activeLabel}</Typography>
                 <List>
                     {activeData.map((track, idx) => {
-                        return(<SongListItem id={track.id} name={track.name} artist={track.artists[0].name} duration={track.duration} coverArt={track.coverArt.url}></SongListItem>)
+                        return(<SongListItem id={track.id} name={track.name} artist={track.artists[0].name} time={track.time} coverArt={track.coverArt.url}></SongListItem>)
                     })}
                 </List>
             </Card>

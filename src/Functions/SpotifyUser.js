@@ -1,5 +1,6 @@
 import React from 'react';
 import * as $ from "jquery";
+import { msToReadableTime } from './TimeFunctions.js';
 
 // function that gets the current spotify user id
 async function getSpotifyUser(token){
@@ -69,6 +70,8 @@ function getTrackDetails(track) {
         artists.push(artistInfo)
     }
 
+    var time = msToReadableTime(track.duration_ms);
+
     const returnVal = {
         name: track.name,
         id: track.id,
@@ -79,6 +82,7 @@ function getTrackDetails(track) {
         coverArt: track.album.images[0],
         artists: artists,
         duration: track.duration_ms,
+        time: time,
         popularity: track.popularity,
 
     }

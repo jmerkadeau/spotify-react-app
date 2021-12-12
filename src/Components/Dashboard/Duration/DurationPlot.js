@@ -3,6 +3,7 @@ import { Container, Typography, Button, Card, Box, Grid } from '@mui/material';
 
 import BarChart from './BarChart.js';
 import SongListTimes from "./SongListTimes.js";
+import { msToReadableTime } from "../../../Functions/TimeFunctions.js";
 
 import { useTheme, makeStyles } from '@mui/styles';
 import { ThemeProvider } from "@mui/material/styles";
@@ -77,10 +78,15 @@ function DurationPlot(props) {
                 }
             }
 
+            const bucketMinTime = msToReadableTime(bucketMin);
+            const bucketMaxTime = msToReadableTime(bucketMax);
             var bucket = {
                 label: `${bucketMin} - ${bucketMax}`,
+                readableLabel: `${bucketMinTime} - ${bucketMaxTime}`,
                 min: bucketMin,
                 max: bucketMax,
+                minReadable: bucketMinTime,
+                maxReadable: bucketMaxTime,
                 frequency: (bucketTracks.length / sortedTracks.length),
                 tracks: bucketTracks
             }
